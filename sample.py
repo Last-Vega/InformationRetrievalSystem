@@ -71,7 +71,8 @@ def identify_docs(query_words, tfidf_scores, ranking_docs):
         exit()
     return ranking_docs
 
-def cosine_similality(ranking_docs, tfidf_table, query_table):
+
+def cosine_similarity(ranking_docs, tfidf_table, query_table):
     for doc in ranking_docs:
         doc_vec = tfidf_table.loc[doc]
         query_vec = query_table.loc['query']
@@ -96,7 +97,7 @@ def do_func():
     tfidf_table = create_dataframe(tfidf_scores, query_tfidf)[0]
     query_table = create_dataframe(tfidf_scores, query_tfidf)[1]
     ranking_docs = identify_docs(query_words, tfidf_scores, ranking_docs)
-    ranking_docs = cosine_similality(ranking_docs, tfidf_table, query_table)
+    ranking_docs = cosine_similarity(ranking_docs, tfidf_table, query_table)
     output(ranking_docs)
 
 #---------------------------------------------
@@ -108,10 +109,11 @@ import re
 import math
 import numpy as np
 import pandas as pd
+import time
 t = Tokenizer()
 
-INDEX = "../index"
-index_file = INDEX + "/index3.txt"
+INDEX = "./index"
+index_file = INDEX + "/result2.txt"
 query = ""
 while True:
     input_words = str(input("Query ->"))
@@ -121,4 +123,7 @@ while True:
         query += "".join(input_words)
 print(query)
 query_file = 'query'
+start = time.time()
 do_func()
+elapsed_time = time.time() - start
+print ("elapsed_time:{0}".format(elapsed_time) + "[sec]")
